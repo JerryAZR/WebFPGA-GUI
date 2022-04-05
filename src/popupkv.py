@@ -13,13 +13,15 @@ synthPopupkv = """
         MDGridLayout:
             rows:1
             adaptive_height: True
+            Widget:
+            # Button:
+            #     id: forwardBtn
+            #     size_hint_y: None
+            #     height: self.font_size * 3
+            #     text: "Next step"
+            #     on_release: root.forward()
             Button:
-                id: forwardBtn
-                size_hint_y: None
-                height: self.font_size * 3
-                text: "Next step"
-                on_release: root.forward()
-            Button:
+                id: stopBtn
                 size_hint_y: None
                 height: self.font_size * 3
                 text: "Stop synthesis"

@@ -9,13 +9,22 @@ class SynthPopup(Popup):
     def __init__(self, **kw):
         super().__init__(**kw)
         self.state = 0
-        self.ids["taskList"].add_widget(
-            ProgressEntry(text="Initialization", state=1)
-        )
-        for i in range(6):
-            self.ids["taskList"].add_widget(
-                ProgressEntry(text=f"Phase {i+1}", state=0)
-            )
+        self.keywords = [
+            "found the top-level module",
+            "Synthesis to EDIF is good.",
+            "Placer is good.",
+            "Router is good.",
+            "Netlister is good.",
+            "Bit File Generation is good.",
+            "purging build directory..."
+        ]
+        self.ids["taskList"].add_widget(ProgressEntry(text="Analysis", state=1))
+        self.ids["taskList"].add_widget(ProgressEntry(text="Synthesis", state=0))
+        self.ids["taskList"].add_widget(ProgressEntry(text="Placement", state=0))
+        self.ids["taskList"].add_widget(ProgressEntry(text="Routing", state=0))
+        self.ids["taskList"].add_widget(ProgressEntry(text="Netlist generation", state=0))
+        self.ids["taskList"].add_widget(ProgressEntry(text="Bitstream generation", state=0))
+        self.ids["taskList"].add_widget(ProgressEntry(text="Cleanup", state=0))
 
     def forward(self, *args):
         # reverse the list to get the right order

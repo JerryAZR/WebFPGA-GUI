@@ -104,7 +104,7 @@ async def Synthesize(output_bitstream, input_verilog, no_cache, collection):
         payload = {"type": "subscribe", "id": id}
         await ws.send(json.dumps(payload))
 
-        while True:
+        while collection.run:
             # Block websocket until we receive a message
             raw_msg = await ws.recv()
             data = json.loads(raw_msg)
@@ -124,6 +124,12 @@ async def Synthesize(output_bitstream, input_verilog, no_cache, collection):
             # print the message and break when synthesis is complete
             print_ws_msg(data)
             for msg in data["msg"]:
+                # Check for keywords
+                for keyword in collection.keywords:
+                    if keyword in msg:
+                        collection.onKeyword()
+                        collection.keywords.remove(keyword)
+                        break
                 # Check for errors and warnings
                 if ("ERROR" in msg) and (msg not in collection.errors):
                     collection.errors.append(msg)

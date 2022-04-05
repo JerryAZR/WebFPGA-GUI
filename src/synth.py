@@ -1,6 +1,6 @@
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
-from kivy.uix.popup import Popup
+from popups import SynthPopup
 from easygui import fileopenbox, filesavebox
 
 import asyncio
@@ -11,12 +11,19 @@ from synthkv import synthkv
 Builder.load_string(synthkv)
 
 class Collection():
-    def __init__(self, onComplete):
+    def __init__(self, onComplete, onKeyword, keywords=[]):
+        self.run = True
         self.success = False
         self.done = False
         self.onComplete = onComplete
         self.errors = []
         self.warnings = []
+        self.keywords = keywords
+        self.onKeyword = onKeyword
+        self.log = open("test_log.txt", "w")
+
+    def terminate(self, *args):
+        self.run = False
 
 class SynthLayout(MDGridLayout):
     btnFontSize = 20
@@ -34,6 +41,7 @@ class SynthLayout(MDGridLayout):
         self.ids["useCacheLabel"].bind(on_release=self.toggle_cache)
 
         self.verilogList = []
+        self.synthPopup = None
 
     def toggle_cache(self, *args):
         self.ids["useCache"].active = not self.ids["useCache"].active
@@ -75,7 +83,17 @@ class SynthLayout(MDGridLayout):
         # Start spinner and disable synthesis button
         self.ids["synthSpinner"].active = True
 
-        collection = Collection(self.synth_cleanup)
+        self.synthPopup = SynthPopup()
+
+        collection = Collection(
+            onComplete=self.synth_cleanup,
+            keywords=self.synthPopup.keywords,
+            onKeyword=self.synthPopup.forward
+        )
+
+        # Bind the stop function
+        self.synthPopup.ids["stopBtn"].bind(on_release=collection.terminate)
+        self.synthPopup.open()
 
         startSynthThread(
             input_verilog=self.verilogList,
@@ -87,13 +105,15 @@ class SynthLayout(MDGridLayout):
     def synth_cleanup(self, collection):
         # stop spinner and enable synthesis button
         self.ids["synthSpinner"].active = False
+        self.synthPopup.dismiss()
+        collection.log.close()
 
         if (collection.success):
             print("Synthesis complete")
         else:
             print("Synthesis failed")
             print("Error messages:")
-            for msg in collection.error:
+            for msg in collection.errors:
                 print(msg)
 
 class FileEntry(MDGridLayout):
