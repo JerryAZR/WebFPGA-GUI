@@ -11,6 +11,7 @@ from webfpga.Flash     import Flash
 from webfpga.Synthesis import Synthesize
 from webfpga.Utilities import SetBitstring
 # GUI imports
+os.environ["KIVY_NO_ARGS"] = "1"
 from kivy.config import Config
 Config.set('input', 'mouse', 'mouse,disable_multitouch')
 from mainScreen import WebFPGA_GUI
@@ -52,9 +53,8 @@ if __name__ == "__main__":
             WebFPGA_GUI().run()
         except Exception as e:
             exceptionbox()
-
-
     else:
+        print("Command Line Mode")
         # Get arguments
         args = docopt(usage)
 
@@ -85,8 +85,16 @@ if __name__ == "__main__":
 
         # Program the FPGA
         elif (args["flash"]):
-            with open(args["<bitstream>"], "rb") as bitstream:
-                Flash(bitstream.read())
+            try:
+                with open(args["<bitstream>"], "rb") as bitstream:
+                    Flash(bitstream.read())
+            except ValueError as e:
+                if e.args[0] == "Device not found":
+                    # we are expecting a "Device not found" error
+                    print(e)
+                else:
+                    # but not a "No backend available" error
+                    raise e
 
         # Set the CPU->FPGA communication bits
         elif (args["setbitstring"]):
