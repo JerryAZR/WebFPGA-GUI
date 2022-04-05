@@ -37,6 +37,7 @@ import colorama
 import termcolor
 from termcolor import colored
 from threading import Thread
+from easygui import exceptionbox
 
 # Cross-platform Colorama support
 colorama.init()
@@ -56,20 +57,23 @@ def startSynthThread(output_bitstream, input_verilog, no_cache, collection):
     _thread.start()
 
 def synthWrapper(output_bitstream, input_verilog, no_cache, collection):
-    # open files
-    outfile = open(output_bitstream, "wb")
-    infiles = []
-    for v in input_verilog:
-        infiles.append(open(v, "r"))
-    # start synthesis
-    asyncio.run(Synthesize(outfile, infiles, no_cache, collection))
-    # close used files
-    for v in infiles:
-        v.close()
-    outfile.close()
-    # execute callback
-    if (collection.onComplete):
-        collection.onComplete(collection)
+    try:
+        # open files
+        outfile = open(output_bitstream, "wb")
+        infiles = []
+        for v in input_verilog:
+            infiles.append(open(v, "r"))
+        # start synthesis
+        asyncio.run(Synthesize(outfile, infiles, no_cache, collection))
+        # close used files
+        for v in infiles:
+            v.close()
+        outfile.close()
+        # execute callback
+        if (collection.onComplete):
+            collection.onComplete(collection)
+    except:
+        exceptionbox()
 
 async def Synthesize(output_bitstream, input_verilog, no_cache, collection):
     # Ensure that the backend is online
