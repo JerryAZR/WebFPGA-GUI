@@ -3,6 +3,7 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 from mainkv import mainkv
 from synth import SynthLayout
+from flash import FlashLayout
 from testLayout import TestLayout
 import os, sys
 from kivy.resources import resource_add_path, resource_find
@@ -13,11 +14,17 @@ class NavScreen(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
         # Add widgets
-        self.synth = SynthLayout()
+        self.synth = SynthLayout(toFlash=self.toFlash)
         self.ids["mainlayout"].add_widget(self.synth)
+        self.flash = FlashLayout()
+        self.ids["flashlayout"].add_widget(self.flash)
         # For testing only
         self.test = TestLayout()
         self.ids["testlayout"].add_widget(self.test)
+
+    def toFlash(self, fname):
+        self.flash.ids["bitstream"].text = fname
+        self.ids["screenManager"].current = "FlashScreen"
 
 class WebFPGA_GUI(MDApp):
     def build(self):

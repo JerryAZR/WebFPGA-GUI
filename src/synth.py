@@ -1,6 +1,6 @@
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
-from popups import SynthPopup
+from popups import SynthPopup, SynthSuccessPopup
 from easygui import fileopenbox, filesavebox
 
 import asyncio
@@ -28,7 +28,7 @@ class SynthLayout(MDGridLayout):
     btnFontSize = 20
     saveBin = "Where would you like to save the bitstream?"
 
-    def __init__(self, **kw):
+    def __init__(self, toFlash, **kw):
         super().__init__(**kw)
         self.ids["addFileBtn"].font_size = self.btnFontSize
         self.ids["rmAllFilesBtn"].font_size = self.btnFontSize
@@ -42,6 +42,7 @@ class SynthLayout(MDGridLayout):
         self.verilogList = []
         self.synthPopup = None
         self.bitstream = ""
+        self.toFlash = toFlash
 
     def toggle_cache(self, *args):
         self.ids["useCache"].active = not self.ids["useCache"].active
@@ -106,14 +107,20 @@ class SynthLayout(MDGridLayout):
         # stop spinner and enable synthesis button
         self.ids["synthSpinner"].active = False
         self.synthPopup.dismiss()
+        self.synthPopup = None
 
         if (collection.success):
-            print("Synthesis complete")
+            popup = SynthSuccessPopup()
+            popup.ids["flashBtn"].bind(on_release=self.toFlashWrapper)
+            popup.open()
         else:
             print("Synthesis failed")
             print("Error messages:")
             for msg in collection.errors:
                 print(msg)
+
+    def toFlashWrapper(self, *args):
+        self.toFlash(self.bitstream)
 
 class FileEntry(MDGridLayout):
     def __init__(self, name, on_delete, **kw):

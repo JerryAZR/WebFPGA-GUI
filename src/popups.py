@@ -2,6 +2,7 @@ from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
 from kivy.uix.popup import Popup
 from popupkv import *
+from easygui import textbox
 
 Builder.load_string(synthPopupkv)
 
@@ -41,3 +42,17 @@ class ProgressEntry(MDGridLayout):
         super().__init__(**kw)
         self.text = text
         self.state = state
+
+Builder.load_string(synthSuccessPopupkv)
+
+class SynthSuccessPopup(Popup):
+    def __init__(self, warnings=[], **kw):
+        super().__init__(**kw)
+        self.warnings = warnings
+        self.ids["warnBtn"].bind(on_release=self.show_warnings)
+
+    def show_warnings(self, *args):
+        textbox(
+            title="Warnings",
+            text="\n".join(self.warnings)
+        )

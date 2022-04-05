@@ -49,3 +49,32 @@ synthPopupkv = """
         size: (label.font_size, label.font_size)
 
 """
+
+synthSuccessPopupkv = """
+<SynthSuccessPopup@Popup>:
+    title: "Synthesis Completed!"
+    size_hint: (0.5, 0.5)
+    MDGridLayout:
+        cols:1
+        Label:
+            id: filepath
+        MDGridLayout:
+            rows: 1
+            Button:
+                size_hint_y: None
+                height: self.font_size * 3
+                text: "Close"
+                on_release: root.dismiss()
+            Button:
+                id: warnBtn
+                size_hint_y: None
+                height: self.font_size * 3
+                text: "Check warnings"
+            Button:
+                id: flashBtn
+                size_hint_y: None
+                height: self.font_size * 3
+                text: "Program FPGA"
+                on_release: root.dismiss()
+
+"""
