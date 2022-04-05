@@ -3,6 +3,7 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 from mainkv import mainkv
 from synth import SynthLayout
+from testLayout import TestLayout
 import os, sys
 from kivy.resources import resource_add_path, resource_find
 
@@ -14,6 +15,9 @@ class NavScreen(Screen):
         # Add widgets
         self.synth = SynthLayout()
         self.ids["mainlayout"].add_widget(self.synth)
+        # For testing only
+        self.test = TestLayout()
+        self.ids["testlayout"].add_widget(self.test)
         # bind menu events
         self.ids["selectMain"].bind(on_release=self.switch_main_screen)
         self.ids["selectTest"].bind(on_release=self.switch_test_screen)

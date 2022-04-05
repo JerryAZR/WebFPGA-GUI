@@ -19,6 +19,7 @@ mainkv = """
                 name: "TestScreen"
                 MDGridLayout:
                     cols: 1
+                    id: testlayout
                     MDToolbar:
                         title: "Test Page"
                         left_action_items: [["menu", lambda x: navDrawer.set_state("open")]]
