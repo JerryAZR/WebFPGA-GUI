@@ -4,11 +4,19 @@ from kivy.uix.popup import Popup
 from easygui import fileopenbox, filesavebox
 
 import asyncio
-from GUISynthesis import Synthesize
+from GUISynthesis import startSynthThread
 
 from synthkv import synthkv
 
 Builder.load_string(synthkv)
+
+class Collection():
+    def __init__(self, onComplete):
+        self.success = False
+        self.done = False
+        self.onComplete = onComplete
+        self.errors = []
+        self.warnings = []
 
 class SynthLayout(MDGridLayout):
     btnFontSize = 20
@@ -60,12 +68,6 @@ class SynthLayout(MDGridLayout):
             return
         if (not bitstream.endswith(".bin")):
             bitstream += ".bin"
-        outfile = open(bitstream, "wb")
-        
-        # open the input files
-        infiles = []
-        for v in self.verilogList:
-            infiles.append(open(v, "r"))
 
         # check "--no-cache" option
         no_cache = not self.ids["useCache"].active
@@ -73,27 +75,26 @@ class SynthLayout(MDGridLayout):
         # Start spinner and disable synthesis button
         self.ids["synthSpinner"].active = True
 
-        self.success = [False]
+        collection = Collection(self.synth_cleanup)
 
-        asyncio.run(Synthesize(
-            input_verilog=infiles,
-            output_bitstream=outfile,
+        startSynthThread(
+            input_verilog=self.verilogList,
+            output_bitstream=bitstream,
             no_cache=no_cache,
-            success=self.success)
+            collection=collection
         )
 
-        # close used files
-        for v in infiles:
-            v.close()
-        outfile.close()
-
+    def synth_cleanup(self, collection):
         # stop spinner and enable synthesis button
         self.ids["synthSpinner"].active = False
 
-        if (self.success[0]):
+        if (collection.success):
             print("Synthesis complete")
         else:
             print("Synthesis failed")
+            print("Error messages:")
+            for msg in collection.error:
+                print(msg)
 
 class FileEntry(MDGridLayout):
     def __init__(self, name, on_delete, **kw):

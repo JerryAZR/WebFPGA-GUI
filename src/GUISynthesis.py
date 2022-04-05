@@ -36,6 +36,7 @@ import websockets
 import colorama
 import termcolor
 from termcolor import colored
+from threading import Thread
 
 # Cross-platform Colorama support
 colorama.init()
@@ -43,7 +44,34 @@ colorama.init()
 BACKEND_URL = "https://backend.webfpga.com/v1/api"
 WSS_URL     = "wss://backend.webfpga.com/v1/ws"
 
-async def Synthesize(output_bitstream, input_verilog, no_cache, success):
+def startSynthThread(output_bitstream, input_verilog, no_cache, collection):
+    # It's probabily better to use multiprocessing here if systhesis runs
+    # on local machine
+    # But since we are using a server, multithreading makes variable
+    # sharing easy
+    _thread = Thread(
+        target=synthWrapper,
+        args=[output_bitstream, input_verilog, no_cache, collection]
+    )
+    _thread.start()
+
+def synthWrapper(output_bitstream, input_verilog, no_cache, collection):
+    # open files
+    outfile = open(output_bitstream, "wb")
+    infiles = []
+    for v in input_verilog:
+        infiles.append(open(v, "r"))
+    # start synthesis
+    asyncio.run(Synthesize(outfile, infiles, no_cache, collection))
+    # close used files
+    for v in infiles:
+        v.close()
+    outfile.close()
+    # execute callback
+    if (collection.onComplete):
+        collection.onComplete(collection)
+
+async def Synthesize(output_bitstream, input_verilog, no_cache, collection):
     # Ensure that the backend is online
     print("Connecting to remote synthesis engine...")
     assert_connection()
@@ -62,7 +90,8 @@ async def Synthesize(output_bitstream, input_verilog, no_cache, success):
         bitstream = download_bitstream(id)
         if bitstream["ready"]:
             save_bitstream(bitstream, output_bitstream)
-            success[0] = True
+            collection.success = True
+            collection.done = True
             return
 
     # Follow synthesis log
@@ -91,14 +120,23 @@ async def Synthesize(output_bitstream, input_verilog, no_cache, success):
             # print the message and break when synthesis is complete
             print_ws_msg(data)
             for msg in data["msg"]:
+                # Check for errors and warnings
+                if ("ERROR" in msg) and (msg not in collection.errors):
+                    collection.errors.append(msg)
+                # We don't care about having duplicate warnings
+                if ("WARNING" in msg):
+                    collection.warnings.append(msg)
+                # Check if synthesis has completed (or failed)
                 if "synthesis complete" in msg:
                     print("Synthesis complete! Downloading bitstream...")
                     bitstream = download_bitstream(id)
                     save_bitstream(bitstream, output_bitstream)
-                    success[0] = True
+                    collection.done = True
+                    collection.success = True
                     return
                 elif "synthesis failed" in msg:
-                    success[0] = False
+                    collection.done = True
+                    collection.success = False
                     return
 
 # Raise error if we are unable to ascertain a positive status
