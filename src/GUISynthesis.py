@@ -14,7 +14,7 @@ colorama.init()
 BACKEND_URL = "https://backend.webfpga.com/v1/api"
 WSS_URL     = "wss://backend.webfpga.com/v1/ws"
 
-async def Synthesize(output_bitstream, input_verilog, no_cache):
+async def Synthesize(output_bitstream, input_verilog, no_cache, success):
     # Ensure that the backend is online
     print("Connecting to remote synthesis engine...")
     assert_connection()
@@ -33,6 +33,7 @@ async def Synthesize(output_bitstream, input_verilog, no_cache):
         bitstream = download_bitstream(id)
         if bitstream["ready"]:
             save_bitstream(bitstream, output_bitstream)
+            success[0] = True
             return
 
     # Follow synthesis log
@@ -65,8 +66,10 @@ async def Synthesize(output_bitstream, input_verilog, no_cache):
                     print("Synthesis complete! Downloading bitstream...")
                     bitstream = download_bitstream(id)
                     save_bitstream(bitstream, output_bitstream)
+                    success[0] = True
                     return
                 elif "synthesis failed" in msg:
+                    success[0] = False
                     return
 
 # Raise error if we are unable to ascertain a positive status

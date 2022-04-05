@@ -67,10 +67,19 @@ class SynthLayout(MDGridLayout):
         for v in self.verilogList:
             infiles.append(open(v, "r"))
 
+        # check "--no-cache" option
+        no_cache = not self.ids["useCache"].active
+
+        # Start spinner and disable synthesis button
+        self.ids["synthSpinner"].active = True
+
+        self.success = [False]
+
         asyncio.run(Synthesize(
             input_verilog=infiles,
             output_bitstream=outfile,
-            no_cache=False)
+            no_cache=no_cache,
+            success=self.success)
         )
 
         # close used files
@@ -78,7 +87,13 @@ class SynthLayout(MDGridLayout):
             v.close()
         outfile.close()
 
-        print("Synthesis complete")
+        # stop spinner and enable synthesis button
+        self.ids["synthSpinner"].active = False
+
+        if (self.success[0]):
+            print("Synthesis complete")
+        else:
+            print("Synthesis failed")
 
 class FileEntry(MDGridLayout):
     def __init__(self, name, on_delete, **kw):

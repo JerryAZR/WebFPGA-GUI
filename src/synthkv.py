@@ -2,6 +2,7 @@ synthkv = """
 <SynthLayout>
     cols: 1
     padding: [0, 0, 0, 0]   # [left, top, right, bottom]
+    active_color: app.theme_cls.primary_color
     MDGridLayout:
         cols: 2
         adaptive_height: True
@@ -19,10 +20,12 @@ synthkv = """
                         id: addFileBtn
                         icon: "book-plus"
                         text: "Add file"
+                        md_bg_color: root.active_color
                     MDFillRoundFlatIconButton:
                         id: rmAllFilesBtn
                         icon: "book-remove-multiple"
                         text: "Remove all"
+                        md_bg_color: root.active_color
         MDGridLayout:
             rows: 1
             adaptive_height: True
@@ -37,6 +40,8 @@ synthkv = """
                         id: synthBtn
                         icon: "memory"
                         text: "Synthesis"
+                        md_bg_color: (100, 100, 100) if synthBtn.disabled else root.active_color
+                        disabled: synthSpinner.active
                     MDGridLayout:
                         rows: 1
                         adaptive_size: True
@@ -53,7 +58,7 @@ synthkv = """
                         id: synthSpinner
                         size_hint: (None, None)
                         size: (48, 48)
-                        active: True
+                        active: False
 
     ScrollView:
         MDGridLayout:
@@ -64,7 +69,7 @@ synthkv = """
 <FileEntry>:
     rows: 1
     adaptive_height: True
-    padding: [8, 0]     # [horizontal, vertical]
+    padding: [24, 0]    # [horizontal, vertical]
     MDLabel:
         id: fileNameLabel
     MDIconButton:
