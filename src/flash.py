@@ -1,7 +1,7 @@
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
 from popups import SynthPopup
-from easygui import fileopenbox, exceptionbox
+from easygui import fileopenbox, exceptionbox, msgbox
 
 from flashkv import flashkv
 
@@ -23,10 +23,13 @@ class FlashLayout(MDGridLayout):
         self.ids["bitstream"].text = fname
 
     def program_fpga(self, *args):
+        self.ids["flashBtn"].disabled = True
         fname = self.ids["bitstream"].text
+        # TODO: move this to a separate thread and add a progress bar
         try:
             with open(fname, "rb") as bitstream:
                 Flash(bitstream.read())
-            print("Done")
+            msgbox(msg="FPGA programmed")
         except:
             exceptionbox()
+        self.ids["flashBtn"].disabled = False

@@ -4,6 +4,7 @@ flashkv = """
     adaptive_height: True
     spacing: 16
     padding: 16
+    active_color: app.theme_cls.primary_color
     MDGridLayout:
         rows: 1
         adaptive_height: True
@@ -27,6 +28,7 @@ flashkv = """
                 id: fileBtn
                 icon: "book-plus"
                 text: "Select bitstream file"
+                md_bg_color: root.active_color
         AnchorLayout:
             anchor_x: "center"
             anchor_y: "center"
@@ -34,5 +36,7 @@ flashkv = """
                 id: flashBtn
                 icon: "usb-port"
                 text: "Program FPGA"
+                disabled: False
+                md_bg_color: (100, 100, 100) if flashBtn.disabled else root.active_color
 
 """

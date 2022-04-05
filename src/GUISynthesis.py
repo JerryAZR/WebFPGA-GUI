@@ -69,11 +69,11 @@ def synthWrapper(output_bitstream, input_verilog, no_cache, collection):
         for v in infiles:
             v.close()
         outfile.close()
-        # execute callback
-        if (collection.onComplete):
-            collection.onComplete(collection)
     except:
         exceptionbox()
+    # execute callback
+    if (collection.onComplete):
+        collection.onComplete(collection)
 
 async def Synthesize(output_bitstream, input_verilog, no_cache, collection):
     # Ensure that the backend is online
