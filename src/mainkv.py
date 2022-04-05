@@ -10,8 +10,17 @@ mainkv = """
                     cols: 1
                     id: mainlayout
                     MDToolbar:
-                        id: mainTopBar
-                        title: "Main Page"
+                        title: "Synthesis Verilog Files"
+                        left_action_items: [["menu", lambda x: navDrawer.set_state("open")]]
+
+            Screen:
+                id: flashScreen
+                name: "FlashScreen"
+                MDGridLayout:
+                    cols: 1
+                    id: flashlayout
+                    MDToolbar:
+                        title: "Flash Bitstream"
                         left_action_items: [["menu", lambda x: navDrawer.set_state("open")]]
                     
             Screen:
@@ -32,12 +41,26 @@ mainkv = """
                     MDList:
                         OneLineIconListItem:
                             id: selectMain
-                            text: "Main Screen"
+                            text: "Synthesis"
+                            on_release:
+                                navDrawer.set_state("close");
+                                screenManager.current = "MainScreen"
                             IconLeftWidget:
                                 icon: "memory"
                         OneLineIconListItem:
+                            id: selectFlash
+                            text: "Flash"
+                            on_release: 
+                                navDrawer.set_state("close");
+                                screenManager.current = "FlashScreen"
+                            IconLeftWidget:
+                                icon: "usb-port"
+                        OneLineIconListItem:
                             id: selectTest
                             text: "Test Screen"
+                            on_release:
+                                navDrawer.set_state("close");
+                                screenManager.current = "TestScreen"
                             IconLeftWidget:
                                 icon: "menu"
 """

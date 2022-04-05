@@ -18,17 +18,6 @@ class NavScreen(Screen):
         # For testing only
         self.test = TestLayout()
         self.ids["testlayout"].add_widget(self.test)
-        # bind menu events
-        self.ids["selectMain"].bind(on_release=self.switch_main_screen)
-        self.ids["selectTest"].bind(on_release=self.switch_test_screen)
-
-    def switch_main_screen(self, *args):
-        self.ids["navDrawer"].set_state("close")
-        self.ids["screenManager"].current = "MainScreen"
-    
-    def switch_test_screen(self, *args):
-        self.ids["navDrawer"].set_state("close")
-        self.ids["screenManager"].current = "TestScreen"
 
 class WebFPGA_GUI(MDApp):
     def build(self):

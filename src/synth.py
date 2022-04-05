@@ -20,7 +20,6 @@ class Collection():
         self.warnings = []
         self.keywords = keywords
         self.onKeyword = onKeyword
-        self.log = open("test_log.txt", "w")
 
     def terminate(self, *args):
         self.run = False
@@ -42,6 +41,7 @@ class SynthLayout(MDGridLayout):
 
         self.verilogList = []
         self.synthPopup = None
+        self.bitstream = ""
 
     def toggle_cache(self, *args):
         self.ids["useCache"].active = not self.ids["useCache"].active
@@ -71,11 +71,11 @@ class SynthLayout(MDGridLayout):
         if (len(self.verilogList) == 0):
             return
         # open output file
-        bitstream = filesavebox(msg=self.saveBin, default="bitstream.bin")
-        if (bitstream is None):
+        self.bitstream = filesavebox(msg=self.saveBin, default="bitstream.bin")
+        if (self.bitstream is None):
             return
-        if (not bitstream.endswith(".bin")):
-            bitstream += ".bin"
+        if (not self.bitstream.endswith(".bin")):
+            self.bitstream += ".bin"
 
         # check "--no-cache" option
         no_cache = not self.ids["useCache"].active
@@ -97,7 +97,7 @@ class SynthLayout(MDGridLayout):
 
         startSynthThread(
             input_verilog=self.verilogList,
-            output_bitstream=bitstream,
+            output_bitstream=self.bitstream,
             no_cache=no_cache,
             collection=collection
         )
@@ -106,7 +106,6 @@ class SynthLayout(MDGridLayout):
         # stop spinner and enable synthesis button
         self.ids["synthSpinner"].active = False
         self.synthPopup.dismiss()
-        collection.log.close()
 
         if (collection.success):
             print("Synthesis complete")
