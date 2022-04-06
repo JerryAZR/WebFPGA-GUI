@@ -2,13 +2,16 @@ name: Windows Build
 
 on: [push, pull_request]
 
+env:
+  KIVY_GL_BACKEND: 'angle_sdl2'
+
 jobs:
   build:
 
     runs-on: windows-latest
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.9"]
 
     steps:
       - uses: actions/checkout@v3
