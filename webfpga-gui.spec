@@ -9,7 +9,7 @@ if platform.startswith("win"):
     from kivy_deps import sdl2, glew
     sdl2_dep_bins = sdl2.dep_bins
     glew_dep_bins = glew.dep_bins
-    hidden = ['win32timezone']
+    hidden = ['win32timezone', 'websockets.legacy.client']
 else:
     # on Linux
     sdl2_dep_bins = []

@@ -78,6 +78,7 @@ synthResultPopupkv = """
         cols:1
         adaptive_height: True
         spacing: 8
+        padding: 8
         Label:
             id: filepath
             size_hint_y: None
