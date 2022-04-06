@@ -39,6 +39,7 @@ import time
 
 from threading import Thread
 from easygui import exceptionbox
+from kivy.clock import Clock
 
 def startFlashThread(bitstream, progress, callback=None):
     _thread = Thread(target=flashWrapper, args=[bitstream, progress, callback])
@@ -53,7 +54,7 @@ def flashWrapper(bitstream, progress, callback):
 
     progress.dismiss()
     if (callback):
-        callback()
+        Clock.schedule_once(callback)
 
 # Main flash routine:
 # Flash device with bitstream

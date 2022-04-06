@@ -86,5 +86,5 @@ mainkv = """
                                 navDrawer.set_state("close");
                                 screenManager.current = "TestScreen"
                             IconLeftWidget:
-                                icon: "menu"
+                                icon: "wrench"
 """

@@ -112,43 +112,43 @@ class SynthLayout(MDGridLayout):
 
         self.synthPopup = SynthPopup()
 
-        collection = Collection(
+        self.colle = Collection(
             onComplete=self.synth_cleanup,
             keywords=self.synthPopup.keywords,
             onKeyword=self.synthPopup.forward
         )
 
         # Bind the stop function
-        self.synthPopup.ids["stopBtn"].bind(on_release=collection.terminate)
+        self.synthPopup.ids["stopBtn"].bind(on_release=self.colle.terminate)
         self.synthPopup.open()
 
         startSynthThread(
             input_verilog=self.verilogList,
             output_bitstream=self.bitstream,
             no_cache=no_cache,
-            collection=collection
+            collection=self.colle
         )
 
-    def synth_cleanup(self, collection):
+    def synth_cleanup(self, *args):
         # stop spinner and enable synthesis button
         self.ids["synthSpinner"].active = False
         self.synthPopup.dismiss()
         self.synthPopup = None
 
         popup = SynthResultPopup(
-            success=collection.success,
-            warnings=(collection.errors + collection.warnings)
+            success=self.colle.success,
+            warnings=(self.colle.errors + self.colle.warnings)
         )
 
-        if (collection.success):
+        if (self.colle.success):
             popup.ids["flashBtn"].bind(on_release=self.toFlashWrapper)
             popup.ids["filepath"].text = f"""
             Bitstream save location:
             {self.bitstream}
             """
         else:
-            if (len(collection.errors) > 0):
-                popup.ids["filepath"].text = collection.errors[0]
+            if (len(self.colle.errors) > 0):
+                popup.ids["filepath"].text = self.colle.errors[0]
         popup.open()
 
     def toFlashWrapper(self, *args):

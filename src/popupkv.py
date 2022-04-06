@@ -72,7 +72,7 @@ synthResultPopupkv = """
 <SynthResultPopup@Popup>:
     size_hint_x: 0.8
     size_hint_y: None
-    height: container.height * 1.6
+    height: self.title_size * 5 + container.height
     MDGridLayout:
         id: container
         cols:1
@@ -110,7 +110,7 @@ flashPopupkv = """
     title: "Flashing Bitstream"
     size_hint_x: 0.8
     size_hint_y: None
-    height: container.height * 1.8
+    height: self.title_size * 5 + container.height
     max: 100
     value: 0
     auto_dismiss: False

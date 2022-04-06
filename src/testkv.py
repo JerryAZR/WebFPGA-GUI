@@ -36,5 +36,8 @@ testkv = """
     MDFillRoundFlatButton:
         id: synthFailTestBtn
         text: "test synth fail popup"
+    MDFillRoundFlatButton:
+        id: shortErrorBtn
+        text: "test synth fail (short error) popup"
 
 """

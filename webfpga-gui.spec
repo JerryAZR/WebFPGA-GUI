@@ -2,15 +2,27 @@
 
 
 block_cipher = None
+from sys import platform
 
-from kivy_deps import sdl2, glew
+if platform.startswith("win"):
+    # Windows
+    from kivy_deps import sdl2, glew
+    sdl2_dep_bins = sdl2.dep_bins
+    glew_dep_bins = glew.dep_bins
+    hidden = ['win32timezone']
+else:
+    # on Linux
+    sdl2_dep_bins = []
+    glew_dep_bins = []
+    hidden = ['websockets.legacy.client']
+
 from kivymd import hooks_path as kivymd_hooks_path
 
-a = Analysis(['src\\main.py'],
+a = Analysis(['src/main.py'],
              pathex=[],
              binaries=[],
              datas=[],
-             hiddenimports=['win32timezone'],
+             hiddenimports=hidden,
              hookspath=[kivymd_hooks_path],
              hooksconfig={},
              runtime_hooks=[],
@@ -22,12 +34,12 @@ a = Analysis(['src\\main.py'],
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 
-exe = EXE(pyz, Tree('src\\'),
+exe = EXE(pyz, Tree('src/'),
           a.scripts,
           a.binaries,
           a.zipfiles,
           a.datas,  
-          *[Tree(p) for p in (sdl2.dep_bins + glew.dep_bins)],
+          *[Tree(p) for p in (sdl2_dep_bins + glew_dep_bins)],
           name='webfpga-gui',
           debug=False,
           bootloader_ignore_signals=False,
