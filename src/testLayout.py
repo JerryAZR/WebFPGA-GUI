@@ -24,7 +24,6 @@ covered by the MIT License (https://opensource.org/licenses/MIT).
 
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
-from kivy.uix.popup import Popup
 from testkv import testkv
 from popups import SynthPopup, SynthResultPopup
 

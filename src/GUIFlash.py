@@ -32,10 +32,6 @@ from webfpga.Utilities import *
 
 import usb.core
 import usb.util
-import re
-import sys
-import textwrap
-import time
 
 from threading import Thread
 from easygui import exceptionbox

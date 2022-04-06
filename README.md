@@ -4,7 +4,7 @@
 [![Windows Build](https://github.com/JerryAZR/WebFPGA-GUI/actions/workflows/windows-build.yml/badge.svg)](https://github.com/JerryAZR/WebFPGA-GUI/actions/workflows/windows-build.yml)
 [![Linux Build](https://github.com/JerryAZR/WebFPGA-GUI/actions/workflows/linux-build.yml/badge.svg)](https://github.com/JerryAZR/WebFPGA-GUI/actions/workflows/linux-build.yml)
 
-A non-official Kivy-based GUI wrapper of the WebFPGA-cli tool
+A Kivy-based unofficial GUI wrapper of the WebFPGA command line tool
 
 ## Notes:
 
