@@ -80,3 +80,8 @@ class SynthSuccessPopup(Popup):
             title="Warnings",
             text="\n".join(self.warnings)
         )
+
+Builder.load_string(flashPopupkv)
+
+class FlashPopup(Popup):
+    pass

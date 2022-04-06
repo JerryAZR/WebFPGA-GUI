@@ -24,12 +24,10 @@ covered by the MIT License (https://opensource.org/licenses/MIT).
 
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
-from popups import SynthPopup
+from popups import FlashPopup
 from easygui import fileopenbox, exceptionbox, msgbox
-
 from flashkv import flashkv
-
-from webfpga.Flash import Flash
+from GUIFlash import startFlashThread
 
 Builder.load_string(flashkv)
 
@@ -49,11 +47,10 @@ class FlashLayout(MDGridLayout):
     def program_fpga(self, *args):
         self.ids["flashBtn"].disabled = True
         fname = self.ids["bitstream"].text
-        # TODO: move this to a separate thread and add a progress bar
-        try:
-            with open(fname, "rb") as bitstream:
-                Flash(bitstream.read())
-            msgbox(msg="FPGA programmed")
-        except:
-            exceptionbox()
+
+        progress = FlashPopup()
+        progress.open()
+        startFlashThread(fname, progress, self.program_done)
+
+    def program_done(self, *args):
         self.ids["flashBtn"].disabled = False

@@ -94,3 +94,25 @@ synthSuccessPopupkv = """
                 on_release: root.dismiss()
 
 """
+
+flashPopupkv = """
+<FlashPopup@Popup>
+    title: "Flashing Bitstream"
+    size_hint_x: 0.8
+    size_hint_y: None
+    height: container.height * 1.8
+    max: 100
+    value: 0
+    auto_dismiss: False
+    run: True
+    MDGridLayout:
+        id: container
+        cols: 1
+        adaptive_height: True
+        ProgressBar:
+            id: progress
+            size_hint_x: 0.8
+            max: root.max
+            value: root.value
+
+"""
