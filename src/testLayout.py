@@ -24,7 +24,6 @@ covered by the MIT License (https://opensource.org/licenses/MIT).
 
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
-from kivy.uix.popup import Popup
 from testkv import testkv
 from popups import SynthPopup, SynthResultPopup
 
@@ -36,6 +35,7 @@ class TestLayout(MDGridLayout):
         self.ids["synthPopupTestBtn"].bind(on_release=self.synthPopupTest)
         self.ids["synthSuccessTestBtn"].bind(on_release=self.synthSuccessTest)
         self.ids["synthFailTestBtn"].bind(on_release=self.synthFailTest)
+        self.ids["shortErrorBtn"].bind(on_release=self.synthFailShortTest)
 
     def synthPopupTest(self, *args):
         popup = SynthPopup()
@@ -64,5 +64,14 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
 General Public License for more details.
         """
+        popup.open()
+
+    def synthFailShortTest(self, *args):
+        popup = SynthResultPopup(success=False, warnings=[
+            "ERROR 1",
+            "WARNING 1",
+            "WARNING 2"
+        ])
+        popup.ids["filepath"].text = "short error"
         popup.open()
         

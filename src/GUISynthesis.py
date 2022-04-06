@@ -38,6 +38,7 @@ import termcolor
 from termcolor import colored
 from threading import Thread
 from easygui import exceptionbox
+from kivy.clock import Clock
 
 # Cross-platform Colorama support
 colorama.init()
@@ -73,7 +74,7 @@ def synthWrapper(output_bitstream, input_verilog, no_cache, collection):
         exceptionbox()
     # execute callback
     if (collection.onComplete):
-        collection.onComplete(collection)
+        Clock.schedule_once(collection.onComplete)
 
 async def Synthesize(output_bitstream, input_verilog, no_cache, collection):
     # Ensure that the backend is online
@@ -127,7 +128,7 @@ async def Synthesize(output_bitstream, input_verilog, no_cache, collection):
                 # Check for keywords
                 for keyword in collection.keywords:
                     if keyword in msg:
-                        collection.onKeyword()
+                        Clock.schedule_once(collection.onKeyword)
                         collection.keywords.remove(keyword)
                         break
                 # Check for errors and warnings

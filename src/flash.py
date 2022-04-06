@@ -25,7 +25,7 @@ covered by the MIT License (https://opensource.org/licenses/MIT).
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
 from popups import FlashPopup
-from easygui import fileopenbox, exceptionbox, msgbox
+from easygui import fileopenbox
 from flashkv import flashkv
 from GUIFlash import startFlashThread
 

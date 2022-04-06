@@ -27,7 +27,6 @@ import asyncio
 import glob
 import os
 import sys
-import traceback
 from docopt import docopt
 # webfpga imports
 from webfpga           import VERSION
