@@ -25,7 +25,7 @@ covered by the MIT License (https://opensource.org/licenses/MIT).
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.toast import toast
-from popups import SynthPopup, SynthSuccessPopup
+from popups import SynthPopup, SynthResultPopup
 from easygui import fileopenbox, filesavebox
 
 import asyncio
@@ -135,19 +135,21 @@ class SynthLayout(MDGridLayout):
         self.synthPopup.dismiss()
         self.synthPopup = None
 
+        popup = SynthResultPopup(
+            success=collection.success,
+            warnings=(collection.errors + collection.warnings)
+        )
+
         if (collection.success):
-            popup = SynthSuccessPopup()
             popup.ids["flashBtn"].bind(on_release=self.toFlashWrapper)
             popup.ids["filepath"].text = f"""
             Bitstream save location:
             {self.bitstream}
             """
-            popup.open()
         else:
-            print("Synthesis failed")
-            print("Error messages:")
-            for msg in collection.errors:
-                print(msg)
+            if (len(collection.errors) > 0):
+                popup.ids["filepath"].text = collection.errors[0]
+        popup.open()
 
     def toFlashWrapper(self, *args):
         self.toFlash(self.bitstream)

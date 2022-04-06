@@ -26,7 +26,7 @@ from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
 from kivy.uix.popup import Popup
 from testkv import testkv
-from popups import SynthPopup, SynthSuccessPopup
+from popups import SynthPopup, SynthResultPopup
 
 Builder.load_string(testkv)
 
@@ -35,13 +35,14 @@ class TestLayout(MDGridLayout):
         super().__init__(**kw)
         self.ids["synthPopupTestBtn"].bind(on_release=self.synthPopupTest)
         self.ids["synthSuccessTestBtn"].bind(on_release=self.synthSuccessTest)
+        self.ids["synthFailTestBtn"].bind(on_release=self.synthFailTest)
 
     def synthPopupTest(self, *args):
         popup = SynthPopup()
         popup.open()
 
     def synthSuccessTest(self, *args):
-        popup = SynthSuccessPopup(warnings=[
+        popup = SynthResultPopup(warnings=[
             "WARNING 1",
             "WARNING 2"
         ])
@@ -50,3 +51,18 @@ class TestLayout(MDGridLayout):
         {"Very long file path to mess with the pop up window"}
         """
         popup.open()
+
+    def synthFailTest(self, *args):
+        popup = SynthResultPopup(success=False, warnings=[
+            "ERROR 1",
+            "WARNING 1",
+            "WARNING 2"
+        ])
+        popup.ids["filepath"].text = """
+This program is distributed in the hope that it will be useful, but 
+WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+General Public License for more details.
+        """
+        popup.open()
+        

@@ -68,28 +68,38 @@ synthPopupkv = """
 
 """
 
-synthSuccessPopupkv = """
-<SynthSuccessPopup@Popup>:
-    title: "Synthesis Completed!"
+synthResultPopupkv = """
+<SynthResultPopup@Popup>:
     size_hint_x: 0.8
     size_hint_y: None
-    height: container.height * 1.8
+    height: container.height * 1.6
     MDGridLayout:
         id: container
         cols:1
         adaptive_height: True
+        spacing: 8
         Label:
             id: filepath
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
         MDGridLayout:
             rows: 1
+            adaptive_height: True
             Button:
+                size_hint_y: None
+                height: self.font_size * 3
                 text: "Close"
                 on_release: root.dismiss()
             Button:
                 id: warnBtn
-                text: "Check warnings"
+                size_hint_y: None
+                height: self.font_size * 3
+                text: "Errors & Warnings"
             Button:
                 id: flashBtn
+                size_hint_y: None
+                height: self.font_size * 3
                 text: "Program FPGA"
                 on_release: root.dismiss()
 

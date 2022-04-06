@@ -67,13 +67,15 @@ class ProgressEntry(MDGridLayout):
         self.text = text
         self.state = state
 
-Builder.load_string(synthSuccessPopupkv)
+Builder.load_string(synthResultPopupkv)
 
-class SynthSuccessPopup(Popup):
-    def __init__(self, warnings=[], **kw):
+class SynthResultPopup(Popup):
+    def __init__(self, success=True, warnings=[], **kw):
         super().__init__(**kw)
+        self.title = "Synthesis Completed!" if success else "Synthesis Failed"
         self.warnings = warnings
         self.ids["warnBtn"].bind(on_release=self.show_warnings)
+        self.ids["flashBtn"].disabled = not success
 
     def show_warnings(self, *args):
         textbox(
