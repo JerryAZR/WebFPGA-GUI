@@ -10,13 +10,6 @@ from webfpga           import VERSION
 from webfpga.Flash     import Flash
 from webfpga.Synthesis import Synthesize
 from webfpga.Utilities import SetBitstring
-# GUI imports
-os.environ["KIVY_NO_ARGS"] = "1"
-from kivy.config import Config
-Config.set('input', 'mouse', 'mouse,disable_multitouch')
-from mainScreen import WebFPGA_GUI
-from kivy.resources import resource_add_path, resource_find
-from easygui import exceptionbox
 
 usage = """
 webfpga-gui (cli mode)
@@ -46,7 +39,14 @@ Arguments:
 
 if __name__ == "__main__":
     if (len(sys.argv) == 1):
-         # Launch the GUI
+        # GUI imports
+        os.environ["KIVY_NO_ARGS"] = "1"
+        from kivy.config import Config
+        Config.set('input', 'mouse', 'mouse,disable_multitouch')
+        from mainScreen import WebFPGA_GUI
+        from kivy.resources import resource_add_path, resource_find
+        from easygui import exceptionbox
+        # Launch the GUI
         if hasattr(sys, '_MEIPASS'):
             resource_add_path(os.path.join(sys._MEIPASS))
         try:
