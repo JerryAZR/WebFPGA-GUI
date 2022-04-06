@@ -11,7 +11,14 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        python-version: [ '3.8', '3.9', '3.10' ]
+        arch: ['x86', 'x64']
+        bat: ['.\win32-build.bat', '.\win64-build.bat']
+        exclude:
+          - arch: 'x86'
+            bat: '.\win64-build.bat'
+          - arch: 'x64'
+            bat: '.\win32-build.bat'
 
     steps:
       - uses: actions/checkout@v3
@@ -19,10 +26,10 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
-          architecture: 'x64'
+          architecture: ${{ matrix.arch }}
       - name: Install dependencies
         run: .\install-dependencies.bat
       - name: Build app
-        run: .\win64-build.bat
+        run: ${{ matrix.bat }}
       - name: Test backend
         run: .\dist\webfpga-gui.exe flash .\bitstream.bin
