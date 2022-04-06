@@ -12,7 +12,6 @@ jobs:
     strategy:
       matrix:
         python-version: [ '3.8', '3.9', '3.10' ]
-        arch: ['x86', 'x64']
 
     steps:
       - uses: actions/checkout@v3
@@ -20,7 +19,6 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
-          architecture: ${{ matrix.arch }}
       - name: Install tk
         run: sudo apt install python3-tk
       - name: Install dependencies
