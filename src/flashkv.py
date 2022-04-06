@@ -42,6 +42,7 @@ flashkv = """
     MDTextField:
         id: bitstream
         text: "bitstream.bin"
+        font_name: app.font_name
     MDGridLayout:
         rows: 1
         adaptive_height: True

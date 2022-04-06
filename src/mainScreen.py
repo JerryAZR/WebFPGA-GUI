@@ -51,6 +51,10 @@ class NavScreen(Screen):
         self.ids["screenManager"].current = "FlashScreen"
 
 class WebFPGA_GUI(MDApp):
+    def __init__(self, font_name="Roboto", **kw):
+        super().__init__(**kw)
+        self.font_name = font_name
+
     def build(self):
         return NavScreen()
 

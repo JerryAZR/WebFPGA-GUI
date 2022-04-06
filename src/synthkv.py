@@ -96,6 +96,7 @@ synthkv = """
     padding: [24, 0]    # [horizontal, vertical]
     MDLabel:
         id: fileNameLabel
+        font_name: app.font_name
     MDIconButton:
         id: deleteEntryBtn
         icon: "book-remove"

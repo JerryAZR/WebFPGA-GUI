@@ -21,7 +21,7 @@ from kivymd import hooks_path as kivymd_hooks_path
 a = Analysis(['src/main.py'],
              pathex=[],
              binaries=[],
-             datas=[],
+             datas=[('./data', './data')],
              hiddenimports=hidden,
              hookspath=[kivymd_hooks_path],
              hooksconfig={},
