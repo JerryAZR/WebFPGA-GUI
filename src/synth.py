@@ -1,5 +1,6 @@
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
+from kivymd.toast import toast
 from popups import SynthPopup, SynthSuccessPopup
 from easygui import fileopenbox, filesavebox
 
@@ -70,6 +71,7 @@ class SynthLayout(MDGridLayout):
     def synth_start(self, *args):
         # check if file list is empty
         if (len(self.verilogList) == 0):
+            toast("Please add at lease one Verilog file.")
             return
         # open output file
         self.bitstream = filesavebox(msg=self.saveBin, default="bitstream.bin")
@@ -112,6 +114,10 @@ class SynthLayout(MDGridLayout):
         if (collection.success):
             popup = SynthSuccessPopup()
             popup.ids["flashBtn"].bind(on_release=self.toFlashWrapper)
+            popup.ids["filepath"].text = f"""
+            Bitstream save location:
+            {self.bitstream}
+            """
             popup.open()
         else:
             print("Synthesis failed")

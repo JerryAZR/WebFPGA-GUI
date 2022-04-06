@@ -13,13 +13,7 @@ synthPopupkv = """
         MDGridLayout:
             rows:1
             adaptive_height: True
-            Widget:
-            # Button:
-            #     id: forwardBtn
-            #     size_hint_y: None
-            #     height: self.font_size * 3
-            #     text: "Next step"
-            #     on_release: root.forward()
+            Widget: # placeholder
             Button:
                 id: stopBtn
                 size_hint_y: None
@@ -53,27 +47,25 @@ synthPopupkv = """
 synthSuccessPopupkv = """
 <SynthSuccessPopup@Popup>:
     title: "Synthesis Completed!"
-    size_hint: (0.5, 0.5)
+    size_hint_x: 0.8
+    size_hint_y: None
+    height: container.height * 1.8
     MDGridLayout:
+        id: container
         cols:1
+        adaptive_height: True
         Label:
             id: filepath
         MDGridLayout:
             rows: 1
             Button:
-                size_hint_y: None
-                height: self.font_size * 3
                 text: "Close"
                 on_release: root.dismiss()
             Button:
                 id: warnBtn
-                size_hint_y: None
-                height: self.font_size * 3
                 text: "Check warnings"
             Button:
                 id: flashBtn
-                size_hint_y: None
-                height: self.font_size * 3
                 text: "Program FPGA"
                 on_release: root.dismiss()
 
