@@ -48,7 +48,7 @@ class TestLayout(MDGridLayout):
         ])
         popup.ids["filepath"].text = f"""
         Bitstream save location:
-        {"Very long file path to mess with the pop up window"}
+        {"中文地址/Very_long_file_path_to_mess_with_the_pop_up_window"}
         """
         popup.open()
 

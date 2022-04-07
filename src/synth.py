@@ -50,14 +50,10 @@ class Collection():
         self.run = False
 
 class SynthLayout(MDGridLayout):
-    btnFontSize = 20
     saveBin = "Where would you like to save the bitstream?"
 
     def __init__(self, toFlash, **kw):
         super().__init__(**kw)
-        self.ids["addFileBtn"].font_size = self.btnFontSize
-        self.ids["rmAllFilesBtn"].font_size = self.btnFontSize
-        self.ids["synthBtn"].font_size = self.btnFontSize
 
         self.ids["addFileBtn"].bind(on_release=self.file_select)
         self.ids["rmAllFilesBtn"].bind(on_release=self.file_clear)

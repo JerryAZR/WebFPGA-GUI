@@ -83,6 +83,7 @@ synthResultPopupkv = """
             id: filepath
             size_hint_y: None
             text_size: self.width, None
+            font_name: app.font_name
             height: self.texture_size[1]
         MDGridLayout:
             rows: 1

@@ -29,6 +29,7 @@ flashkv = """
     spacing: 16
     padding: 16
     active_color: app.theme_cls.primary_color
+    btnFontSize: 20
     MDGridLayout:
         rows: 1
         adaptive_height: True
@@ -39,6 +40,7 @@ flashkv = """
         MDLabel:
             id: sizeref
             text: "Bitstream file to use:"
+            font_size: root.btnFontSize
     MDTextField:
         id: bitstream
         text: "bitstream.bin"
@@ -53,6 +55,7 @@ flashkv = """
                 id: fileBtn
                 icon: "book-plus"
                 text: "Select bitstream file"
+                font_size: root.btnFontSize
                 md_bg_color: root.active_color
         AnchorLayout:
             anchor_x: "center"
@@ -61,6 +64,7 @@ flashkv = """
                 id: flashBtn
                 icon: "usb-port"
                 text: "Program FPGA"
+                font_size: root.btnFontSize
                 disabled: False
                 md_bg_color: (100, 100, 100) if flashBtn.disabled else root.active_color
 

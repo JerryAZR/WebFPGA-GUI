@@ -27,6 +27,7 @@ synthkv = """
     cols: 1
     padding: [0, 0, 0, 0]   # [left, top, right, bottom]
     active_color: app.theme_cls.primary_color
+    btnFontSize: 20
     MDGridLayout:
         cols: 2
         adaptive_height: True
@@ -44,11 +45,13 @@ synthkv = """
                         id: addFileBtn
                         icon: "book-plus"
                         text: "Add file"
+                        font_size: root.btnFontSize
                         md_bg_color: root.active_color
                     MDFillRoundFlatIconButton:
                         id: rmAllFilesBtn
                         icon: "book-remove-multiple"
                         text: "Remove all"
+                        font_size: root.btnFontSize
                         md_bg_color: root.active_color
         MDGridLayout:
             rows: 1
@@ -64,6 +67,7 @@ synthkv = """
                         id: synthBtn
                         icon: "memory"
                         text: "Synthesis"
+                        font_size: root.btnFontSize
                         md_bg_color: (100, 100, 100) if synthBtn.disabled else root.active_color
                         disabled: synthSpinner.active
                     MDGridLayout:
