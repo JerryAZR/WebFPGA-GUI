@@ -67,7 +67,6 @@ if __name__ == "__main__":
         from kivy.config import Config
         Config.set('input', 'mouse', 'mouse,disable_multitouch')
         from kivy.resources import resource_add_path, resource_find
-        from kivy.lang import Builder
         from kivy.core.text import LabelBase
         from mainScreen import WebFPGA_GUI
         from easygui import exceptionbox
