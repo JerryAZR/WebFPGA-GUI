@@ -66,14 +66,22 @@ if __name__ == "__main__":
         os.environ["KIVY_NO_ARGS"] = "1"
         from kivy.config import Config
         Config.set('input', 'mouse', 'mouse,disable_multitouch')
-        from mainScreen import WebFPGA_GUI
         from kivy.resources import resource_add_path, resource_find
+        from kivy.core.text import LabelBase
+        from mainScreen import WebFPGA_GUI
         from easygui import exceptionbox
-        # Launch the GUI
+
         if hasattr(sys, '_MEIPASS'):
             resource_add_path(os.path.join(sys._MEIPASS))
+            resource_add_path(os.path.join(sys._MEIPASS, "data/fonts/NotoSansSC"))
+        else:
+            # For launching the script from repo root
+            resource_add_path("data/fonts/NotoSansSC")
         try:
-            WebFPGA_GUI().run()
+            # Launch the GUI
+            fontRegular = resource_find("NotoSansSC-Regular.otf")
+            LabelBase.register("NotoSansSC", fontRegular)
+            WebFPGA_GUI(font_name="NotoSansSC").run()
         except Exception as e:
             exceptionbox()
     else:
