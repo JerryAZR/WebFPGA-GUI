@@ -22,7 +22,6 @@ of the original program belongs to Auburn Ventures, LLC and is
 covered by the MIT License (https://opensource.org/licenses/MIT).
 """
 
-from email.policy import default
 import os
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout

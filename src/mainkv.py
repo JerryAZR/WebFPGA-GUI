@@ -46,6 +46,16 @@ mainkv = """
                     MDToolbar:
                         title: "Flash Bitstream"
                         left_action_items: [["menu", lambda x: navDrawer.set_state("open")]]
+
+            Screen:
+                id: infoScreen
+                name: "InfoScreen"
+                MDGridLayout:
+                    cols: 1
+                    id: infolayout
+                    MDToolbar:
+                        title: "About WebFPGA-GUI"
+                        left_action_items: [["menu", lambda x: navDrawer.set_state("open")]]
                     
             Screen:
                 id: testScreen
@@ -79,6 +89,14 @@ mainkv = """
                                 screenManager.current = "FlashScreen"
                             IconLeftWidget:
                                 icon: "usb-port"
+                        OneLineIconListItem:
+                            id: selectInfo
+                            text: "About"
+                            on_release: 
+                                navDrawer.set_state("close");
+                                screenManager.current = "InfoScreen"
+                            IconLeftWidget:
+                                icon: "information"
                         # OneLineIconListItem:
                         #     id: selectTest
                         #     text: "Test Screen"
