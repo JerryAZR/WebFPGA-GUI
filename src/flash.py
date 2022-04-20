@@ -39,7 +39,8 @@ class FlashLayout(MDGridLayout):
         self.ids["flashBtn"].bind(on_release=self.program_fpga)
 
     def file_select(self, *args):
-        fname = fileopenbox(multiple=False, default="*.bin")
+        defaultFname = self.ids["bitstream"].text
+        fname = fileopenbox(multiple=False, default=defaultFname)
         if (fname is None):
             return
         self.ids["bitstream"].text = fname

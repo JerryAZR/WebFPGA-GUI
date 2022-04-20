@@ -79,12 +79,12 @@ mainkv = """
                                 screenManager.current = "FlashScreen"
                             IconLeftWidget:
                                 icon: "usb-port"
-                        OneLineIconListItem:
-                            id: selectTest
-                            text: "Test Screen"
-                            on_release:
-                                navDrawer.set_state("close");
-                                screenManager.current = "TestScreen"
-                            IconLeftWidget:
-                                icon: "wrench"
+                        # OneLineIconListItem:
+                        #     id: selectTest
+                        #     text: "Test Screen"
+                        #     on_release:
+                        #         navDrawer.set_state("close");
+                        #         screenManager.current = "TestScreen"
+                        #     IconLeftWidget:
+                        #         icon: "wrench"
 """
