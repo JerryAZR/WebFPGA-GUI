@@ -9,7 +9,7 @@ A Kivy-based unofficial GUI wrapper of the WebFPGA command line tool
 ## Notes:
 
 * I'm not affiliated with the WebFPGA team
-* This is a work in progress and is likely unstable
+* Bug reports and feature requests are welcome!
 
 ## See Also
 
