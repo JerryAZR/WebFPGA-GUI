@@ -22,6 +22,7 @@ of the original program belongs to Auburn Ventures, LLC and is
 covered by the MIT License (https://opensource.org/licenses/MIT).
 """
 
+import os
 from kivy.lang import Builder
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.toast import toast
@@ -62,16 +63,21 @@ class SynthLayout(MDGridLayout):
 
         self.verilogList = []
         self.synthPopup = None
-        self.bitstream = ""
+        self.bitstream = "./bitstream.bin"
         self.toFlash = toFlash
+        self.verilogDir = "./"
 
     def toggle_cache(self, *args):
         self.ids["useCache"].active = not self.ids["useCache"].active
 
     def file_select(self, *args):
-        fnames = fileopenbox(multiple=True, default="*.v")
+        # Open file dialog box at previous location
+        defaultPath = os.path.join(self.verilogDir, "*.v")
+        fnames = fileopenbox(multiple=True, default=defaultPath)
         if (fnames is None):
             return
+        # update default verilog path
+        self.verilogDir = os.path.dirname(fnames[0])
         for fname in fnames:
             if (fname not in self.verilogList):
                 self.verilogList.append(fname)
@@ -94,9 +100,11 @@ class SynthLayout(MDGridLayout):
             toast("Please add at lease one Verilog file.")
             return
         # open output file
-        self.bitstream = filesavebox(msg=self.saveBin, default="bitstream.bin")
-        if (self.bitstream is None):
+        tmp = filesavebox(msg=self.saveBin, default=self.bitstream)
+        if (tmp is None):
             return
+        # Update default bitstream path if not None
+        self.bitstream = tmp
         if (not self.bitstream.endswith(".bin")):
             self.bitstream += ".bin"
 

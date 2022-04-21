@@ -28,6 +28,7 @@ from kivy.uix.screenmanager import Screen
 from mainkv import mainkv
 from synth import SynthLayout
 from flash import FlashLayout
+from info import InfoLayout
 from testLayout import TestLayout
 import os, sys
 from kivy.resources import resource_add_path, resource_find
@@ -42,6 +43,8 @@ class NavScreen(Screen):
         self.ids["mainlayout"].add_widget(self.synth)
         self.flash = FlashLayout()
         self.ids["flashlayout"].add_widget(self.flash)
+        self.info = InfoLayout()
+        self.ids["infolayout"].add_widget(self.info)
         # For testing only
         self.test = TestLayout()
         self.ids["testlayout"].add_widget(self.test)
